@@ -1,0 +1,44 @@
+name: Java CI
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+permissions: {}
+
+jobs:
+  build:
+    name: build
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+
+    concurrency:
+      group: ${{ github.workflow }}-${{ github.sha }}
+      cancel-in-progress: false
+
+    permissions:
+      contents: read
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      with:
+        persist-credentials: false
+
+    - name: Use the runner's JDK 21
+      run: |
+        echo "JAVA_HOME=${JAVA_HOME_21_X64}" >> "${GITHUB_ENV}"
+        echo "${JAVA_HOME_21_X64}/bin" >> "${GITHUB_PATH}"
+
+    - name: Build
+      run: mvn -B -ntp -DskipTests package
+
+    - name: Run tests
+      run: mvn -B -ntp test
+
+    - name: Smoke-test the command
+      run: |
+        out="$(printf '{"op":"parse","xml":"<a>1</a>"}\n' | java -jar target/fast-xml-parser.jar)"
+        test "${out}" = '{"result":{"a":1}}'

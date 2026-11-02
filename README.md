@@ -1,204 +1,111 @@
-# [fast-xml-parser](https://www.npmjs.com/package/fast-xml-parser)
+# fast-xml-parser for Java
 
-[![NPM total downloads](https://img.shields.io/npm/dt/fast-xml-parser.svg)](https://npm.im/fast-xml-parser)
-
-Validate XML, Parse XML to JS Object, or Build XML from JS Object without C/C++ based libraries and no callback.
+Validate XML, parse XML into JavaScript-style objects, and build XML from them, in Java with the JDK standard
+library only. This is a port of [fast-xml-parser](https://github.com/NaturalIntelligence/fast-xml-parser) 5.11.2
+(and of the runtime dependencies it uses: fast-xml-builder, strnum, anynum, @nodable/entities, path-expression-matcher,
+is-unsafe and xml-naming). It accepts the same options and gives the same results, down to number formatting, key
+order, entity handling, error messages and the original's quirks.
 
 <img align="right" src="static/img/fxp_logo.png" width="180px" alt="FXP logo"/>
 
-* Validate XML data syntactically. Use [detailed-xml-validator](https://github.com/NaturalIntelligence/detailed-xml-validator/) to verify business rules.
-* Parse XML to JS Objects and vice versa
-* Common JS, ESM, and browser compatible
-* Faster than any other pure JS implementation.
+* Validate XML data syntactically (`XMLValidator`).
+* Parse XML to objects (`XMLParser`), with attributes, namespaces, CDATA, comments, processing instructions, DOCTYPE
+  entities, HTML entities, unpaired tags (e.g. `<br>`), stop nodes (e.g. `<script>`), ordered output and node
+  metadata.
+* Build XML from objects (`XMLBuilder`), plain or ordered, formatted or compact.
+* A `fast-xml-parser` command that answers JSON-lines requests over the whole API.
 
-It can handle big files (tested up to 100mb). XML Entities, HTML entities, and DOCTYPE entites are supported. Unpaired tags (Eg `<br>` in HTML), stop nodes (Eg `<script>` in HTML) are supported. It can also preserve Order of tags in JS object
+## Build
 
-> **IMPORTANT**: It is recommended to use [fast-xml-validator](https://github.com/NaturalIntelligence/fast-xml-validator) instead of inbuilt validator.
+JDK 21 and Maven 3.9:
 
-# Before using this library
-
-- [Flexible-XML-Parser](https://github.com/nodable/flexible-xml-parser) is 1.25 times faster than this library when not preserving order of tags. Takes less memory when processing big files. Supports incomplete XML/HTML. And output is highly customizable. Build whatever you want. So if you're fine with some extra configuration then try it out.
-- [@nodable/sax](https://github.com/nodable/sax) is a SAX parser based on [Flexible-XML-Parser](https://github.com/nodable/flexible-xml-parser). 3-4 times faster than `sax`  and support all features of base package like incomplete input, streams, skipping certain tags from processing etc.
-- [fast-xml-validator](https://github.com/NaturalIntelligence/fast-xml-validator) is separated from this package. Has many features. Faster. You can exvlude particular tag from validation. And much more.
-- [fast-xml-builder](https://github.com/NaturalIntelligence/fast-xml-builder) is a XML to JS Object builder used in this package in past. Now, it supports more features, and faster. So, recommend to use it directly.
-
-
----
-# Your Support, Our Motivation
-
-Please join [Discord community](https://discord.gg/X4Qp9u6Vz) for pre release announcements and discussions.
-
-<!-- ## Try out our New Thoughts
-
-- WishIn - You need it if negative thoughts take over all the time <br>
-<a href="https://play.google.com/store/apps/details?id=com.solothought.wishin"> <img src="https://solothought.com/products/assets/images/wishin/YouTubeThumbnail.png" width="500px"/> </a>
-- [Text2Chart](https://solothought.com/text2chart/flow): interactive flow chart out of simple text. -->
-
-## Financial Support
-
-Sponsor this project
-
-<a href="https://github.com/sponsors/NaturalIntelligence"> 
-  <img src="https://raw.githubusercontent.com/NaturalIntelligence/ThankYouBackers/main/github_sponsor.png" width="180" />
-</a>
-<a href="https://opencollective.com/fast-xml-parser/donate" target="_blank">
-  <img src="https://opencollective.com/fast-xml-parser/donate/button@2x.png?color=blue" width=180 />
-</a>
-<br>
-<br>
-<br>
-
-> This is a donation. No goods or services are expected in return. Any requests for refunds for those purposes will be rejected.
-
-## Users
-
-<a href="https://github.com/renovatebot/renovate" title="renovate" ><img src="https://avatars1.githubusercontent.com/u/38656520" width="60px" ></a>
-<a href="https://vmware.com/" title="vmware" > <img src="https://avatars0.githubusercontent.com/u/473334" width="60px" ></a>
-<a href="https://opensource.microsoft.com/" title="microsoft" > <img src="https://avatars0.githubusercontent.com/u/6154722" width="60px" ></a>
-<a href="http://ibm.github.io/" title="IBM" > <img src="https://avatars2.githubusercontent.com/u/1459110" width="60px" ></a>
-<a href="http://www.smartbear.com" title="SmartBear Software" > <img src="https://avatars2.githubusercontent.com/u/1644671" width="60px" ></a>
-<a href="http://nasa.github.io/" title="NASA" > <img src="https://avatars0.githubusercontent.com/u/848102" width="60px" ></a>
-<a href="https://github.com/prettier" title="Prettier" > <img src="https://avatars0.githubusercontent.com/u/25822731" width="60px" ></a>
-<a href="http://brain.js.org/" title="brain.js" > <img src="https://avatars2.githubusercontent.com/u/23732838" width="60px" ></a>
-<a href="https://github.com/aws" title="AWS SDK" > <img src="https://avatars.githubusercontent.com/u/2232217" width="60px" ></a>
-<a href="http://www.fda.gov/" title="Food and Drug Administration " > <img src="https://avatars2.githubusercontent.com/u/6471964" width="60px" ></a>
-<a href="http://www.magento.com/" title="Magento" > <img src="https://avatars2.githubusercontent.com/u/168457" width="60px" ></a>
-<a href="https://github.com/SAP" title="SAP" > <img src="https://user-images.githubusercontent.com/7692328/204835214-d9d25b58-e3df-408d-87a3-c7d36b578ee4.png" width="60px" ></a>
-<a href="https://github.com/postmanlabs" title="postman" > <img src="https://user-images.githubusercontent.com/7692328/204835529-e9e290ad-696a-49ad-9d34-08e955704715.png" width="60px" ></a>
-<a href="https://github.com/react-native-community" title="React Native Community" > <img src="https://avatars.githubusercontent.com/u/20269980?v=4" width="60px" ></a>
-<a href="https://github.com/googleapis" title="Google APIs" > <img src="https://avatars.githubusercontent.com/u/16785467?v=4" width="60px" ></a>
-<a href="https://github.com/langchain-ai" title="Langchain AI" > <img src="https://avatars.githubusercontent.com/u/126733545?v=4" width="60px" ></a>
-<a href="https://github.com/withastro" title="Astro websie builder" > <img src="https://avatars.githubusercontent.com/u/44914786?v=4" width="60px" ></a>
-<a href="https://github.com/baidu" title="Baidu" > <img src="https://avatars.githubusercontent.com/u/13245940?v=4" width="60px" ></a>
-[more](./USERs.md)
-
-<small>The list of users are mostly published by Github or communicated directly. Feel free to contact if you find any information wrong.</small>
-
----
-
-# More about this library
-
-## How to use
-
-To use as package dependency
-`$ npm install fast-xml-parser` 
-or 
-`$ yarn add fast-xml-parser`
-
-To use as system command
-`$ npm install fast-xml-parser -g` 
-
-To use it on a **webpage** include it from a [CDN](https://cdnjs.com/libraries/fast-xml-parser)
-
-**Example**
-
-As CLI command
 ```bash
-$ fxparser some.xml
+mvn -B package        # target/fast-xml-parser.jar, tests included
+mvn -B test
 ```
 
-In a node js project
-```js
-const { XMLParser, XMLBuilder, XMLValidator} = require("fast-xml-parser");
+## Using the library
 
-const parser = new XMLParser();
-let jObj = parser.parse(XMLdata);
+Values are JavaScript-style: objects are `JsObject` (string keys in JavaScript's order: integer keys first),
+arrays `JsArray`, numbers `Double`, `null` is JavaScript's `null` and `Js.UNDEFINED` its `undefined`. Options are a
+`JsObject` (or `Js.UNDEFINED` for the defaults); callbacks are `JsFunction` lambdas. Errors are thrown as `JsError`,
+carrying the original's error `name` and `message`.
 
-const builder = new XMLBuilder();
-const xmlContent = builder.build(jObj);
+```java
+import io.github.naturalintelligence.fxp.builder.XMLBuilder;
+import io.github.naturalintelligence.fxp.js.JsFunction;
+import io.github.naturalintelligence.fxp.js.JsObject;
+import io.github.naturalintelligence.fxp.js.Json;
+import io.github.naturalintelligence.fxp.parser.XMLParser;
+import io.github.naturalintelligence.fxp.validator.XMLValidator;
+
+JsObject options = (JsObject) Json.parse("{\"ignoreAttributes\":false}");
+options.set("isArray", (JsFunction) args -> "item".equals(args[0]));
+
+Object result = new XMLParser(options).parse("<root><item id=\"1\">01</item></root>");
+Json.stringify(result);                       // {"root":{"item":[{"#text":1,"@_id":"1"}]}}
+
+XMLValidator.validate("<a><b></a>", Json.parse("{}"));  // {err: {code, msg, line, col}}
+
+new XMLBuilder(options).build(result);        // <root><item id="1">1</item></root>
 ```
 
-In a HTML page
-```html
-<script src="path/to/fxp.min.js"></script>
-:
-<script>
-  const parser = new fxparser.XMLParser();
-  parser.parse(xmlContent);
-</script>
+The options are those of fast-xml-parser; their documentation is in [docs/v4, v5](./docs/v4,%20v5/) (written for
+the JavaScript API; the Java classes take the same option names and values):
+[parser](./docs/v4,%20v5/2.XMLparseOptions.md), [builder](./docs/v4,%20v5/3.XMLBuilder.md),
+[validator](./docs/v4,%20v5/4.XMLValidator.md), [entities](./docs/v4,%20v5/5.Entities.md),
+[HTML](./docs/v4,%20v5/6.HTMLParsing.md), [PI tags](./docs/v4,%20v5/7.PITags.md) and
+[path expressions](./docs/v4,%20v5/8.%20PathExpression.md).
+
+## The `fast-xml-parser` command
+
+`bin/fast-xml-parser` (or `java -jar target/fast-xml-parser.jar`) takes no arguments. It reads standard input as
+UTF-8, treats every non-empty line as one JSON request and writes one JSON response line per request, in order. The
+exit status is 0 when every request succeeded and 1 when one failed; any argument prints the usage text on standard
+error and exits with 2.
+
+```bash
+$ printf '%s\n' '{"op":"parse","xml":"<a x=\"1\">2</a>","options":{"ignoreAttributes":false}}' \
+    '{"op":"validate","xml":"<a>"}' | bin/fast-xml-parser
+{"result":{"a":{"#text":2,"@_x":"1"}}}
+{"result":{"err":{"code":"InvalidTag","msg":"Unclosed tag 'a'.","line":1,"col":1}}}
 ```
 
-Bundle size
+Requests:
 
-| Bundle Name        | Size |
-| ------------------ | ---- |
-| fxbuilder.min.js   | 6.5K |
-| fxparser.min.js    | 20K  |
-| fxp.min.js         | 26K  |
-| fxvalidator.min.js | 5.7K |
+| request | does |
+| --- | --- |
+| `{"op":"parse","xml":X,"bytes":[...],"validate":V,"entities":[[NAME,VALUE],...],"options":O}` | `new XMLParser(O)`, `addEntity` for each pair, then `parse(X or the UTF-8 bytes, V)` |
+| `{"op":"validate","xml":S,"options":O}` | `XMLValidator.validate(S, O)` |
+| `{"op":"build","data":D,"options":O}` | `new XMLBuilder(O).build(D)` |
+| `{"op":"cli","args":[...],"input":S}` | what the original's deprecated `fxparser` command prints for the flags `-ns -a -c -v -V` |
 
-## Documents
-<table>
-  <tr><td>v3</td><td>v4 and v5</td><td>v6</td></tr>
-  <tr>
-    <td>
-      <a href="./docs/v3/docs.md">documents</a>
-    </td>
-    <td><ol>
-      <li><a href="./docs/v4,v5/1.GettingStarted.md">Getting Started</a></li>
-      <li><a href="./docs/v4,v5/2.XMLparseOptions.md">XML Parser</a></li>
-      <li><a href="./docs/v4,v5/3.XMLBuilder.md">XML Builder</a></li>
-      <li><a href="./docs/v4,v5/4.XMLValidator.md">XML Validator</a></li>
-      <li><a href="./docs/v4,v5/5.Entities.md">Entities</a></li>
-      <li><a href="./docs/v4,v5/6.HTMLParsing.md">HTML Document Parsing</a></li>
-      <li><a href="./docs/v4,v5/7.PITags.md">PI Tag processing</a></li>
-      <li><a href="./docs/v4,v5/8.PathExpression.md">Path Expression</a></li>
-    </ol></td>
-    <td><ol>
-      <li></li><a href="./docs/v6/1.GettingStarted.md">Getting Started</a></li>
-    </ol></td>
-  </tr>
-</table>
+Responses are `{"result":...}` (plus `"calls"` when a callback logs), the `cli` op answers
+`{"stdout":...,"stderr":...,"exitCode":...}`, and failures are `{"error":{"name":...,"message":...}}`. Inside
+`options`, these JSON shapes stand for the values JSON cannot write:
 
-**note**: 
-- Version 6 is released with version 4 for experimental use. Based on its demand, it'll be developed and the features can be different in final release.
-- Version 5 has the same functionalities as version 4.
+* `{"$fn":SPEC}`: a callback. SPEC chooses the result with `byPath` (the jPath string, or a matcher's path), `byExpr`
+  (path expressions matched against a matcher), `byName` (the first argument) and `else`; results are JSON values or
+  `{"$arg":N}`, `{"$undefined":true}`, `{"$throw":MESSAGE}`, `{"$concat":[...]}`, `{"$lower":N}`, `{"$upper":N}` and
+  `{"$set":{...},"$delete":[...],"$on":N,"$return":R}`. With `"log":true` every call is reported in `"calls"`, path
+  matchers described by their path, tag, namespace, depth, position and counter.
+* `{"$regex":SOURCE,"$flags":FLAGS}`: a JavaScript regular expression (ignoreAttributes entries,
+  numberParseOptions.skipLike, the builder's entities).
+* `{"$expression":PATTERN,"$separator":SEP}`: a path expression for stopNodes.
+* `{"$decoder":OPTIONS,"$external":MAP}`: an entity decoder for the entityDecoder option.
 
-## Performance
-<small>negative means error</small>
+With `captureMetaData`, the node metadata (`startIndex`, `endIndex`) appears in a response as one more member,
+`@@xmlMetadata`.
 
-### XML Parser
+## Tests
 
-<img align="left" src="./docs/imgs/XMLParser_v4.png" width="45%" />
-<img src="./docs/imgs/XMLParser_large_v4.png" width="47%" />
+`mvn test` runs the JUnit suites under `src/test/java`: the parser, validator and builder behaviour of the original
+spec files, the ported runtime pieces, the command, and every call of the original jasmine suite replayed against the
+original's responses (`src/test/resources/upstream-suite.jsonl`). `spec/assets` holds the documents the suite reads.
 
-* Y-axis: requests per second
-* X-axis: File size
+## License
 
-### XML Builder
-
-<img src="./docs/imgs/XMLBuilder_v4.png" width="50%" />
-* Y-axis: requests per second
-
-<!-- [![](static/img/ni_ads_ads.gif)](https://github.com/NaturalIntelligence/ads/) -->
-
----
-
-## Usage Trend
-
-[Usage Trend of fast-xml-parser](https://npm-compare.com/fast-xml-parser#timeRange=THREE_YEARS)
-  
-<a href="https://npm-compare.com/fast-xml-parser#timeRange=THREE_YEARS" target="_blank">
-  <img src="https://npm-compare.com/img/npm-trend/THREE_YEARS/fast-xml-parser.png" width="50%" alt="NPM Usage Trend of fast-xml-parser" />
-</a>
-
-# Supporters
-#### Contributors
-
-This project exists thanks to [all](graphs/contributors) the people who contribute. [[Contribute](docs/CONTRIBUTING.md)].
-
-<a href="graphs/contributors"><img src="https://opencollective.com/fast-xml-parser/contributors.svg?width=890&button=false" /></a>
-
-
-#### Backers from Open collective
-
-Thank you to all our backers! 🙏 [[Become a backer](https://opencollective.com/fast-xml-parser#backer)]
-
-<a href="https://opencollective.com/fast-xml-parser#backers" target="_blank"><img src="https://opencollective.com/fast-xml-parser/backers.svg?width=890"></a>
-
-
-
-# License
-* MIT License
-
-![Donate $5](static/img/donation_quote.png)
+MIT, see [LICENSE](./LICENSE). The ported dependencies are MIT licensed as well: fast-xml-builder, anynum, xml-naming,
+is-unsafe, strnum and path-expression-matcher (each in its own repository under github.com/NaturalIntelligence) and
+@nodable/entities (github.com/nodable/val-parsers). Each
+ported file keeps the notice of the code it comes from.

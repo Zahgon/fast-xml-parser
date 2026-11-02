@@ -1,0 +1,7 @@
+#!/bin/sh
+# The fast-xml-parser command: the jar `mvn package` builds, run with the JDK on PATH (or JAVA_HOME).
+jar="$(dirname "$(readlink -f "$0")")/../target/fast-xml-parser.jar"
+if [ -n "${JAVA_HOME:-}" ]; then
+  exec "$JAVA_HOME/bin/java" -jar "$jar" "$@"
+fi
+exec java -jar "$jar" "$@"
